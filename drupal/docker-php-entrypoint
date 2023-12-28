@@ -1,0 +1,28 @@
+#!/bin/sh
+set -e
+
+sleep 5s
+
+# first arg is `-f` or `--some-option`
+if [ "${1#-}" != "$1" ]; then
+	set -- php "$@"
+fi
+
+echo "Check if tables exist in database \"ddsite\" already."
+
+BCU_TABLES=`drush sqlq "USE information_schema; SELECT COUNT(*) FROM TABLES WHERE TABLE_SCHEMA = 'ddsite';"`
+
+if [ "$BCU_TABLES" = 0 ] ; then
+	echo "Database is empty, executing drush si ..."
+	drush -y si --account-pass $DRUPAL_ADMIN_PASSWORD
+	echo "Done with drush si."
+fi
+
+echo "checking for updatedb ..."
+cwd=$(pwd)
+cd /opt/drupal
+drush -y updatedb
+cd $cwd
+echo "Done with database update"
+
+exec "$@"
