@@ -12,13 +12,6 @@ COPY docker-php-entrypoint /usr/local/bin/
 
 COPY composer.* /opt/drupal/
 
-COPY config /opt/drupal/config/
-
-COPY blt /opt/drupal/blt/
-
-COPY patches /opt/drupal/patches/
-
-COPY scripts /opt/drupal/scripts/
 
 COPY php.ini /usr/local/etc/php
 

@@ -8,13 +8,13 @@ if [ "${1#-}" != "$1" ]; then
 	set -- php "$@"
 fi
 
-echo "Check if tables exist in database \"ddsite\" already."
+echo "Check if tables exist in database \"ddrupal\" already."
 
-BCU_TABLES=`drush sqlq "USE information_schema; SELECT COUNT(*) FROM TABLES WHERE TABLE_SCHEMA = 'ddsite';"`
+BCU_TABLES=`drush sqlq "USE information_schema; SELECT COUNT(*) FROM TABLES WHERE TABLE_SCHEMA = 'ddrupal';"`
 
 if [ "$BCU_TABLES" = 0 ] ; then
 	echo "Database is empty, executing drush si ..."
-	drush -y si --account-pass $DRUPAL_ADMIN_PASSWORD
+	drush -y si --account-pass=admin
 	echo "Done with drush si."
 fi
 
